@@ -1,0 +1,56 @@
+#contentTable{
+	display: block;
+	border: 2px solid red;
+	width: 650px;
+	margin-bottom: 5px;
+}
+.tableRow{
+	overflow: hidden;
+	display: block;
+	border: 1px solid green;
+	margin: 2px;
+}
+.tableItem{
+	display: inline;
+	float: left;
+	border: 1px solid black;
+	width: 100px;
+	margin: 2px;
+	height: 100px;
+}
+.tableItemImage{
+	display: inline;
+	float: left;
+	border: 1px solid black;
+	width: 100px;
+	margin: 2px;
+	height: 100px;
+}
+.tableHeader{
+	display: inline;
+	float: left;
+	border: 1px solid black;
+	width: 100px;
+	margin: 2px;
+	font-weight: bold;
+	height: 100px;
+}
+.sortIcon{
+	height: 15px;
+	width: 15px;
+}
+#paginator{
+	overflow: hidden;
+	display: block;
+	width: 650px;
+	border: 1px solid green;
+	margin: 2px;
+}
+.pageItem{
+	display: inline;
+	float: left;
+	border: 1px solid green;
+	width: 30px;
+	height: 30px;
+	margin: 2px;
+}
