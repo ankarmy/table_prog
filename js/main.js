@@ -1,3 +1,9 @@
+require(['data'], function(data){
+  var articles = data.articles;
+	var headers = data.headers;
+console.log(data.articles);
+
+
 var contentTable = document.getElementById('contentTable');
 var paginator = document.getElementById('paginator');
 var sortParametr = {	//глобальная переменная для выбора направления сортировки
@@ -164,3 +170,6 @@ function clearItem(){	//функция отчистки таблицы
 		contentTable.removeChild(contentTable.children[i]);
 	}
 }
+
+
+});
