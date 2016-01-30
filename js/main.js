@@ -1,7 +1,8 @@
-require(['data'], function(data){
+require(['data','createtable','jquery'], function(data, createtable){
   var articles = data.articles;
 	var headers = data.headers;
 console.log(data.articles);
+
 
 
 var contentTable = document.getElementById('contentTable');
@@ -15,26 +16,7 @@ var itemOnPage = 5;//количество строк на странице дл�
 var activePageNumber = 1; //номер активной страницы;
 var pageCount;
 
-function showHeader(arr){			//вывод хедера таблицы
-	for (var j = 0; j < arr.length; j++){
-		var tableHeaderRow = document.createElement('div');
-		tableHeaderRow.className = "tableRow";
-		contentTable.appendChild(tableHeaderRow);
-		getClick(tableHeaderRow);
 
-			for (var key in arr[j]){
-			var tableItemHeader = document.createElement('div');
-			tableItemHeader.className = "tableHeader";
-			if (sortParametr.columId == key) {
-				tableItemHeader.innerHTML = arr[j][key] + " " +sortParametr.sortImage;
-			}else{
-			tableItemHeader.innerHTML = arr[j][key];
-			}
-			tableItemHeader.id = key;
-			tableHeaderRow.appendChild(tableItemHeader);
-			}
-	}
-}
 
 function getClick(tableHeader){ //обработка клика по ячейке хедера
 		tableHeader.addEventListener('click', sort, false);
@@ -57,7 +39,7 @@ function pageShow(e){ //функция показа страницы табли�
 	activePageNumber = e.target.id;
 	}
 	clearItem();
-	showHeader(headers);
+	createtable(headers);
 	showRow(articles);
 
 }
@@ -118,7 +100,7 @@ function showFooter(arr) {//функция создания пагинатора
 	}
 }
 
-showHeader(headers); //рисуем таблицу
+createtable(headers); //рисуем таблицу
 showRow(articles);
 showFooter(articles);
 
@@ -160,7 +142,7 @@ function sort(el){	//функция вызываемая по клику для 
 	}
 
 	clearItem();			//очищаем таблицу для вывода отсортированной
-	showHeader(headers);
+	createtable(headers);
 	showRow(articles);		//выводим отсортированную таблицу
 }
 
