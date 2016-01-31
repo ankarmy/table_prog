@@ -8,13 +8,71 @@ var sortParametr = {	//глобальная переменная для выбо
 var itemOnPage = 5;//количество строк на странице для пагинатора
 var activePageNumber = 1; //номер активной страницы;
 var pageCount;
+var filterButton = document.getElementById('filterButton');
+var filterWordItem, filterColName; //переменные содержащие условия для фильтра
+
+function createSelectorItems(arr){//создание селектора для фильтра
+		for (var key in arr[0]){
+			if ((key != "number") && (key != "image")){//исключаем фильтр по номеру и по картинке
+				var selectorItem = document.createElement('option');
+				selectorItem.value = key;
+				selectorItem.innerHTML = arr[0][key];
+				document.filterForm.filterCol.appendChild(selectorItem);
+			}
+		}
+}
+
+
+
+filterButton.addEventListener('click', filterTable ,false);
+clearButton.addEventListener('click', clearFilter, false);
+
+
+
+
+function filterTable(){//получаем значения фильрации при клике на копку фильтра
+	filterWordItem = document.filterForm.filterWord.value;
+	filterColName = document.filterForm.filterCol.value;
+	createFilteredData(articles, filterWordItem, filterColName);//вызов фунции фильтрации
+}
+
+
+function clearFilter(){//функция отчистки фильра
+	clearItem();
+	showHeader(headers);
+	showRow(articles);
+	clearFooter();
+	showFooter(articles);
+}
+
+function createFilteredData(arr, findItem, findKey){//функция создания отфильтрованного массива
+	var filteredArticles = [];
+	for(var j = 0; j <arr.length; j++){
+		for (var key in arr[j]){
+			if ((key == findKey) && (arr[j][key] == findItem)){
+				filteredArticles.push(arr[j]);
+			}
+		}
+	}
+	clearItem();
+	showHeader(headers);
+	showRow(filteredArticles);
+	clearFooter();
+	showFooter(filteredArticles);
+}
+
+
+
+
+
+
 
 function showHeader(arr){			//вывод хедера таблицы
 	for (var j = 0; j < arr.length; j++){
 		var tableHeaderRow = document.createElement('div');
 		tableHeaderRow.className = "tableRow";
 		contentTable.appendChild(tableHeaderRow);
-		getClick(tableHeaderRow);
+		tableHeaderRow.addEventListener('click', sort, false);;
 
 			for (var key in arr[j]){
 			var tableItemHeader = document.createElement('div');
@@ -30,13 +88,9 @@ function showHeader(arr){			//вывод хедера таблицы
 	}
 }
 
-function getClick(tableHeader){ //обработка клика по ячейке хедера
-		tableHeader.addEventListener('click', sort, false);
-}
 
-function getClick2(pageNumber){ //обработка клика по нажатию на пагинатор
-	pageNumber.addEventListener('click', pageShow, false);
-}
+
+
 
 function pageShow(e){ //функция показа страницы таблицы
 	if (e.target.id == "<") {
@@ -49,7 +103,13 @@ function pageShow(e){ //функция показа страницы табли�
 		}
 	}else {
 	activePageNumber = e.target.id;
+
 	}
+	for(var i=0; i < paginator.children.length; i++){
+		paginator.children[i].className = "pageItem";
+		paginator.children[activePageNumber].className = "selectedPageItem";
+	}
+
 	clearItem();
 	showHeader(headers);
 	showRow(articles);
@@ -93,25 +153,31 @@ function showFooter(arr) {//функция создания пагинатора
 			pageItem.innerHTML = "<";
 			pageItem.id = "<";
 			paginator.appendChild(pageItem);
-			getClick2(pageItem);
+			pageItem.addEventListener('click', pageShow, false);
 		}else if (i == (pageCount+1)) {
 			var pageItem = document.createElement('div');
 			pageItem.className = "pageItem";
 			pageItem.innerHTML = ">";
 			pageItem.id = ">";
 			paginator.appendChild(pageItem);
-			getClick2(pageItem);
+			pageItem.addEventListener('click', pageShow, false);
 		}else  {
 			var pageItem = document.createElement('div');
-			pageItem.className = "pageItem";
+			if (i == 1){
+				pageItem.className = "selectedPageItem";
+			}else{
+				pageItem.className = "pageItem";
+			}
 			pageItem.innerHTML = i;
 			pageItem.id = i;
 			paginator.appendChild(pageItem);
-			getClick2(pageItem);
+			pageItem.addEventListener('click', pageShow, false);
 		}
 	}
 }
 
+
+createSelectorItems(headers);
 showHeader(headers); //рисуем таблицу
 showRow(articles);
 showFooter(articles);
@@ -163,4 +229,8 @@ function clearItem(){	//функция отчистки таблицы
 	for (var i = contentTable.children.length-1; i > -1 ; i--) {
 		contentTable.removeChild(contentTable.children[i]);
 	}
+}
+
+function clearFooter(){
+	paginator.innerHTML = "";
 }

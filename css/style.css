@@ -9,6 +9,7 @@
 	display: block;
 	border: 1px solid green;
 	margin: 2px;
+	height: 105px;
 }
 .tableItem{
 	display: inline;
@@ -53,4 +54,14 @@
 	width: 30px;
 	height: 30px;
 	margin: 2px;
+}
+.selectedPageItem{
+	display: inline;
+	float: left;
+	border: 1px solid green;
+	width: 30px;
+	height: 30px;
+	margin: 2px;
+	font-weight: bold;
+	font-size: 20px;
 }
